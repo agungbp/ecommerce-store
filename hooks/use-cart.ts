@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { Product } from "@/types";
 import { persist, createJSONStorage } from "zustand/middleware";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 interface CartStore {
     items: Product[]
@@ -22,7 +22,7 @@ const useCart = create(
                     return toast("Item already in cart")
                 }
 
-                set({ items: [...currentItems, data] })
+                set({ items: [...get().items, data] })
 
                 toast.success("Item added to cart")
             },
@@ -33,7 +33,7 @@ const useCart = create(
             },
             removeAll: () => set({ items: [] })
         }), {
-        name: "cart-store",
+        name: "cart-storage",
         storage: createJSONStorage(() => localStorage)
     })
 )
